@@ -30,7 +30,8 @@ public abstract class Claim {
             data.saveConfig();
             p.sendMessage(ChatColor.YELLOW + "Chunk claimed successfully");
         } else {
-            p.sendMessage(ChatColor.RED + "This land belongs to " + data.getConfig().get("players." + p.getUniqueId().toString() + ".domain"));
+            String owner = data.getConfig().getString("worlds." + p.getWorld().getName() + ".chunks." + p.getLocation().getChunk() + ".owner");
+            p.sendMessage(ChatColor.RED + "This land belongs to " + ChatColor.GOLD + data.getConfig().get("players." + owner + ".domain"));
         }
     }
 }
