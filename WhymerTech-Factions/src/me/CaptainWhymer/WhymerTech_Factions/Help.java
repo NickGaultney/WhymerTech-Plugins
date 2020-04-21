@@ -8,6 +8,11 @@ import java.lang.reflect.Method;
 
 public abstract class Help {
     public static void help(Player p, String[] args, DataManager data) {
+        if (!p.hasPermission("wt.base.basic.help")) {
+            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+            return;
+        }
+
         Method[] methods;
         if (args.length == 0) {
             p.sendMessage(ChatColor.GOLD + "____________________ HELP 1/1 ____________________");

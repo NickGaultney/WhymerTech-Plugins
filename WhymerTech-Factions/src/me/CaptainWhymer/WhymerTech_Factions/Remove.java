@@ -6,6 +6,11 @@ import org.bukkit.entity.Player;
 
 public abstract class Remove {
     public static void remove(Player p, String[] args, DataManager data) {
+        if (!p.hasPermission("wt.base.basic.remove")) {
+            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+            return;
+        }
+
         if (args.length == 0) {
             p.sendMessage(ChatColor.RED + "Usage: /base remove <player_name>");
             return;

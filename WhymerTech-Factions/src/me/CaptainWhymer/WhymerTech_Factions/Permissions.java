@@ -21,6 +21,11 @@ public abstract class Permissions {
     ));
 
     public static void permissions(Player p, String[] args, DataManager data) {
+        if (!p.hasPermission("wt.base.basic.permissions")) {
+            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+            return;
+        }
+
         if (args.length == 0) {
             list(p, data);
         } else if (args[0].equalsIgnoreCase("set")) {

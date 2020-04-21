@@ -12,8 +12,11 @@ import java.util.Objects;
 public abstract class Map {
     private static final int SIZE = 15;
     public static void map(Player p, String[] args, DataManager data) {
-        //ArrayList<StringBuilder> chunks = new ArrayList<>();
-        // [z][x]
+        if (!p.hasPermission("wt.base.basic.map")) {
+            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+            return;
+        }
+
         String[] chunks = new String[SIZE];
         Arrays.fill(chunks, "  ");
 

@@ -8,6 +8,11 @@ import java.util.Objects;
 
 public abstract class Unclaim {
     public static void unclaim(Player p, String[] args, DataManager data) {
+        if (!p.hasPermission("wt.base.basic.unclaim")) {
+            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+            return;
+        }
+
         // If chunk belongs to the player
         if (Objects.equals(data.getConfig().get("chunks." + p.getLocation().getChunk() + ".owner"), p.getUniqueId().toString())) {
             // Remove chunk from data.yml

@@ -6,6 +6,11 @@ import org.bukkit.entity.Player;
 
 public abstract class Claim {
     public static void claim(Player p, String[] args, DataManager data) {
+        if (!p.hasPermission("wt.base.basic.claim")) {
+            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+            return;
+        }
+
         // If chunk is not already claimed
         if (!data.getConfig().contains("chunks." + p.getLocation().getChunk())) {
             // Set player as owner of chunk

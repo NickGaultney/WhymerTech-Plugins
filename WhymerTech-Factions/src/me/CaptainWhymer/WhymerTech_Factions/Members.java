@@ -10,6 +10,11 @@ import java.util.Set;
 public abstract class Members {
 
     public static void members(Player p, String[] args, DataManager data) {
+        if (!p.hasPermission("wt.base.basic.members")) {
+            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+            return;
+        }
+
         ConfigurationSection members = data.getConfig().getConfigurationSection("players." + p.getUniqueId().toString() + ".members");
         if (members != null) {
             Set<String> keys = members.getKeys(true);
