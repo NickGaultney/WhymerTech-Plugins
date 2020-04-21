@@ -17,6 +17,7 @@ public abstract class Rename {
         }
 
         data.getConfig().set("players." + p.getUniqueId().toString() + ".domain", args[0]);
+        data.saveConfig();
         p.sendMessage(ChatColor.YELLOW + "Your domain shall now be called: " + ChatColor.GOLD + args[0]);
     }
 }
