@@ -14,7 +14,7 @@ public abstract class Claim {
         // If chunk is not already claimed
         if (!data.getConfig().contains("chunks." + p.getLocation().getChunk())) {
             // Set player as owner of chunk
-            data.getConfig().set("chunks." + p.getLocation().getChunk() + ".owner", p.getUniqueId().toString());
+            data.getConfig().set("worlds." + p.getWorld().getName() + ".chunks." + p.getLocation().getChunk() + ".owner", p.getUniqueId().toString());
 
             // Sets domain-name to player's name
             data.getConfig().set("players." + p.getUniqueId().toString() + ".domain", p.getName());

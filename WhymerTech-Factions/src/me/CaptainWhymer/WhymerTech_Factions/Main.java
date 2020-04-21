@@ -47,8 +47,8 @@ public class Main extends JavaPlugin implements Listener {
         // If the player entered a new chunk
         if (event.getFrom().getChunk() != Objects.requireNonNull(event.getTo()).getChunk()) {
             // If the chunks have different owners
-            String previousChunkOwner = data.getConfig().getString("chunks." + event.getFrom().getChunk() + ".owner");
-            String currentChunkOwner = data.getConfig().getString("chunks." + event.getTo().getChunk() + ".owner");
+            String previousChunkOwner = data.getConfig().getString("worlds." + p.getWorld().getName() + ".chunks." + event.getFrom().getChunk() + ".owner");
+            String currentChunkOwner = data.getConfig().getString("worlds." + p.getWorld().getName() + ".chunks." + event.getTo().getChunk() + ".owner");
             if (!Objects.equals(previousChunkOwner, currentChunkOwner)) {
                 // If the chunk has been claimed
                 if (currentChunkOwner != null) {
@@ -112,8 +112,8 @@ public class Main extends JavaPlugin implements Listener {
 
     private boolean playerHasPermission(Player player, Chunk chunk, String permission) {
         // If the block is in a chunk claimed by a player
-        if (data.getConfig().contains("chunks." + chunk)) {
-            String owner = data.getConfig().getString("chunks." + chunk + ".owner");
+        if (data.getConfig().contains("worlds." + player.getWorld().getName() + ".chunks." + chunk)) {
+            String owner = data.getConfig().getString("worlds." + player.getWorld().getName() + ".chunks." + chunk + ".owner");
             // If the player is not the owner
             if (!player.getUniqueId().toString().equals(owner)) {
                 // If player is a member
@@ -132,8 +132,8 @@ public class Main extends JavaPlugin implements Listener {
 
     private boolean blockHasPermission(Chunk chunk, String permission) {
         // If the block is in a chunk claimed by a player
-        if (data.getConfig().contains("chunks." + chunk)) {
-            String owner = data.getConfig().getString("chunks." + chunk + ".owner");
+        if (data.getConfig().contains("worlds." + chunk.getWorld() + ".chunks." + chunk)) {
+            String owner = data.getConfig().getString("worlds." + chunk.getWorld() + ".chunks." + chunk + ".owner");
             // If fire-spread is disabled
             return data.getConfig().getBoolean("players." + owner + ".permissions." + permission);
         }

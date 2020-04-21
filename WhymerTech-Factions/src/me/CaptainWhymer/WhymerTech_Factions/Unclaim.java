@@ -14,7 +14,7 @@ public abstract class Unclaim {
         }
 
         // If chunk belongs to the player
-        if (Objects.equals(data.getConfig().get("chunks." + p.getLocation().getChunk() + ".owner"), p.getUniqueId().toString())) {
+        if (Objects.equals(data.getConfig().get("worlds." + p.getWorld().getName() + ".chunks." + p.getLocation().getChunk() + ".owner"), p.getUniqueId().toString())) {
             // Remove chunk from data.yml
             data.getConfig().set("chunks." + p.getLocation().getChunk(), null);
 
