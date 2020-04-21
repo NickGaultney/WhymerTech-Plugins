@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WhymerTech-Factions:jar">
+    <output-path>$PROJECT_DIR$/../../Spigot/plugins</output-path>
+    <root id="archive" name="WhymerTech-Factions.jar">
+      <element id="module-output" name="WhymerTech-Factions" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../Spigot/spigot.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

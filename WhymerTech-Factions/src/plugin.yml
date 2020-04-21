@@ -1,0 +1,7 @@
+main: me.CaptainWhymer.WhymerTech_Factions.Main
+name: WhymerTech-Factions
+version: 1.0
+author: CaptainWhymer
+
+commands:
+  Base:
