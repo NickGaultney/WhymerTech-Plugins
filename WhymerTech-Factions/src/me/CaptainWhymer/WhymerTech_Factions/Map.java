@@ -32,9 +32,9 @@ public abstract class Map {
                 if (chunk == p.getLocation().getChunk()) {
                     chunks[i] += (ChatColor.GOLD + "+ ");
                 // If chunk is claimed by someone
-                } else if (data.getConfig().contains("chunks." + chunk)) {
+                } else if (data.getConfig().contains("worlds." + p.getWorld().getName() + ".chunks." + chunk)) {
                     // If chunk is claimed by this player
-                    if (Objects.equals(data.getConfig().getString("chunks." + chunk + ".owner"), p.getUniqueId().toString())) {
+                    if (Objects.equals(data.getConfig().getString("worlds." + p.getWorld().getName() + ".chunks." + chunk + ".owner"), p.getUniqueId().toString())) {
                         chunks[i] += (ChatColor.BLUE + "+ ");
                     // If chunk belongs to someone else
                     } else {

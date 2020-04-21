@@ -12,7 +12,7 @@ public abstract class Claim {
         }
 
         // If chunk is not already claimed
-        if (!data.getConfig().contains("chunks." + p.getLocation().getChunk())) {
+        if (!data.getConfig().contains("worlds." + p.getWorld().getName() + ".chunks." + p.getLocation().getChunk())) {
             // Set player as owner of chunk
             data.getConfig().set("worlds." + p.getWorld().getName() + ".chunks." + p.getLocation().getChunk() + ".owner", p.getUniqueId().toString());
 
