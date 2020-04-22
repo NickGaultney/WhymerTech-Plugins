@@ -103,9 +103,13 @@ public class PermissionHandler implements Listener {
                 // If player is a member
                 if (data.getConfig().contains("players." + owner + ".members." + player.getName())) {
                     // If permission is disabled
-                    return data.getConfig().getBoolean("players." + owner + ".permissions." + permission);
+                    if (!data.getConfig().getBoolean("players." + owner + ".permissions." + permission)) {
+                        player.sendMessage(ChatColor.RED + "You do not have permission to do that");
+                        return false;
+                    }
                     // If player is not a member
                 } else {
+                    player.sendMessage(ChatColor.RED + "You do not have permission to do that");
                     return false;
                 }
             }
@@ -116,7 +120,7 @@ public class PermissionHandler implements Listener {
 
     private boolean blockHasPermission(Chunk chunk, String permission) {
         // If the block is in a chunk claimed by a player
-        if (data.getConfig().contains("worlds." + chunk.getWorld() + ".chunks." + chunk)) {
+        if (data.getConfig().contains("worlds." + chunk.getWorld().getName() + ".chunks." + chunk)) {
             String owner = data.getConfig().getString("worlds." + chunk.getWorld() + ".chunks." + chunk + ".owner");
             // If fire-spread is disabled
             return data.getConfig().getBoolean("players." + owner + ".permissions." + permission);
