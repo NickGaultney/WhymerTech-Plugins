@@ -1,4 +1,4 @@
-package me.CaptainWhymer.WhymerTech_Factions;
+package me.CaptainWhymer.WhymerTech_Factions.Commands;
 
 import me.CaptainWhymer.WhymerTech_Factions.Files.DataManager;
 import org.bukkit.ChatColor;

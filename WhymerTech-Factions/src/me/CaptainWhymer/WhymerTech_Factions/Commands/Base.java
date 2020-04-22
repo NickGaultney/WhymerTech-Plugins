@@ -1,6 +1,7 @@
-package me.CaptainWhymer.WhymerTech_Factions;
+package me.CaptainWhymer.WhymerTech_Factions.Commands;
 
 import me.CaptainWhymer.WhymerTech_Factions.Files.DataManager;
+import me.CaptainWhymer.WhymerTech_Factions.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,7 +25,7 @@ public class Base implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         // Check permissions
         if (!sender.hasPermission("wt.base")) {
-            sender.sendMessage(ChatColor.DARK_RED + "You do not have permission to do that.");
+            sender.sendMessage(ChatColor.RED + "You do not have permission to do that.");
             return true;
         }
 
@@ -38,7 +39,7 @@ public class Base implements CommandExecutor {
             // If player calls command
             Player p = (Player) sender;
             if (args.length == 0) {
-                p.sendMessage(ChatColor.RED + "Try /base help");
+                p.sendMessage(ChatColor.RED + "Invalid Command: Try /base help");
                 return true;
             }
 
