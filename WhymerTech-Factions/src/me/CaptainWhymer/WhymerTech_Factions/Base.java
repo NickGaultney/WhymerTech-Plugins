@@ -43,7 +43,14 @@ public class Base implements CommandExecutor {
             }
 
             try {
+                // Check to see if command exists
                 Class<?> clazz = Class.forName(getClass().getPackage().getName() + "." + capitalize(args[0]));
+
+                // convert args to lowercase
+                for(int i = 0; i < args.length; i++) {
+                    args[i] = args[i].toLowerCase();
+                }
+
                 Method method = clazz.getMethod(args[0], Player.class, String[].class, DataManager.class);
                 method.invoke(null, p, Arrays.copyOfRange(args, 1, args.length), data);
             } catch (Exception e) {
@@ -58,10 +65,6 @@ public class Base implements CommandExecutor {
     }
 
     private String capitalize(String str) {
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
-
-//    public static void claim(Player p, String[] args) {
-//        p.sendMessage(ChatColor.GOLD + args[0] + " SUCCESS!");
-//    }
 }
