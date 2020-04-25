@@ -3,6 +3,7 @@ package me.CaptainWhymer.WhymerTech_Factions.Files;
 import me.CaptainWhymer.WhymerTech_Factions.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,5 +62,20 @@ public class DataManager {
         if (!this.configFile.exists()) {
             this.plugin.saveResource(this.file, false);
         }
+    }
+
+    public void initializeBase(Player p) {
+        // Sets domain-name to player's name
+        getConfig().set("players." + p.getUniqueId().toString() + ".domain", p.getName());
+
+        // Sets default permissions
+        getConfig().set("players." + p.getUniqueId().toString() + ".permissions.block-break", false);
+        getConfig().set("players." + p.getUniqueId().toString() + ".permissions.block-place", false);
+        getConfig().set("players." + p.getUniqueId().toString() + ".permissions.chest-open", false);
+        getConfig().set("players." + p.getUniqueId().toString() + ".permissions.fire-spread", false);
+        getConfig().set("players." + p.getUniqueId().toString() + ".permissions.lava-flow", false);
+        getConfig().set("players." + p.getUniqueId().toString() + ".permissions.explosions", false);
+
+        saveConfig();
     }
 }
