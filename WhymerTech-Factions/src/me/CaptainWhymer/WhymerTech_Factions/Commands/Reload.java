@@ -4,14 +4,24 @@ import me.CaptainWhymer.WhymerTech_Factions.Files.DataManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public abstract class Reload {
-    public static void reload(Player p, String[] args, DataManager data) {
-        if (!p.hasPermission("wt.base.admin.reload")) {
-            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+public class Reload {
+    Player player;
+    String[] args;
+    DataManager data;
+
+    public Reload(Player player, String[] args, DataManager data) {
+        this.player = player;
+        this.args = args;
+        this.data = data;
+    }
+
+    public void reload() {
+        if (!player.hasPermission("wt.base.admin.reload")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to do that");
             return;
         }
 
         data.reloadConfig();
-        p.sendMessage(ChatColor.GREEN + "Config Reloaded!");
+        player.sendMessage(ChatColor.GREEN + "Config Reloaded!");
     }
 }

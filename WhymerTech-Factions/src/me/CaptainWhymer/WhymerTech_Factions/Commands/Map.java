@@ -10,32 +10,42 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-public abstract class Map {
+public class Map {
     private static final int SIZE = 15;
-    public static void map(Player p, String[] args, DataManager data) {
-        if (!p.hasPermission("wt.base.basic.map")) {
-            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+    Player player;
+    String[] args;
+    DataManager data;
+
+    public Map(Player player, String[] args, DataManager data) {
+        this.player = player;
+        this.args = args;
+        this.data = data;
+    }
+
+    public void map() {
+        if (!player.hasPermission("wt.base.basic.map")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to do that");
             return;
         }
 
         String[] chunks = new String[SIZE];
         Arrays.fill(chunks, "  ");
 
-        int x = p.getLocation().getChunk().getX() - SIZE/2;
-        int z = p.getLocation().getChunk().getZ() - SIZE/2;
+        int x = player.getLocation().getChunk().getX() - SIZE/2;
+        int z = player.getLocation().getChunk().getZ() - SIZE/2;
 
-        p.sendMessage("");
-        p.sendMessage(ChatColor.GOLD + "                NORTH");
+        player.sendMessage("");
+        player.sendMessage(ChatColor.GOLD + "                NORTH");
 
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                Chunk chunk = Objects.requireNonNull(Main.getPlugin(Main.class).getServer().getWorld(p.getWorld().getName())).getChunkAt(x, z);
-                if (chunk == p.getLocation().getChunk()) {
+                Chunk chunk = Objects.requireNonNull(Main.getPlugin(Main.class).getServer().getWorld(player.getWorld().getName())).getChunkAt(x, z);
+                if (chunk == player.getLocation().getChunk()) {
                     chunks[i] += (ChatColor.GOLD + "+ ");
                 // If chunk is claimed by someone
-                } else if (data.getConfig().contains("worlds." + p.getWorld().getName() + ".chunks." + chunk)) {
+                } else if (data.getConfig().contains("worlds." + player.getWorld().getName() + ".chunks." + chunk)) {
                     // If chunk is claimed by this player
-                    if (Objects.equals(data.getConfig().getString("worlds." + p.getWorld().getName() + ".chunks." + chunk + ".owner"), p.getUniqueId().toString())) {
+                    if (Objects.equals(data.getConfig().getString("worlds." + player.getWorld().getName() + ".chunks." + chunk + ".owner"), player.getUniqueId().toString())) {
                         chunks[i] += (ChatColor.BLUE + "+ ");
                     // If chunk belongs to someone else
                     } else {
@@ -52,7 +62,7 @@ public abstract class Map {
         }
 
         for (String ss : chunks) {
-            p.sendMessage(ss);
+            player.sendMessage(ss);
         }
     }
 }

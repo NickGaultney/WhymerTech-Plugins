@@ -4,20 +4,30 @@ import me.CaptainWhymer.WhymerTech_Factions.Files.DataManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public abstract class Rename {
-    public static void rename(Player p, String[] args, DataManager data) {
-        if (!p.hasPermission("wt.base.basic.rename")) {
-            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+public class Rename {
+    Player player;
+    String[] args;
+    DataManager data;
+
+    public Rename(Player player, String[] args, DataManager data) {
+        this.player = player;
+        this.args = args;
+        this.data = data;
+    }
+
+    public void rename() {
+        if (!player.hasPermission("wt.base.basic.rename")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to do that");
             return;
         }
 
         if (args.length == 0) {
-            p.sendMessage(ChatColor.RED + "Usage: /base rename <custom_name>");
+            player.sendMessage(ChatColor.RED + "Usage: /base rename <custom_name>");
             return;
         }
 
-        data.getConfig().set("players." + p.getUniqueId().toString() + ".domain", args[0]);
+        data.getConfig().set("players." + player.getUniqueId().toString() + ".domain", args[0]);
         data.saveConfig();
-        p.sendMessage(ChatColor.YELLOW + "Your domain shall now be called: " + ChatColor.GOLD + args[0]);
+        player.sendMessage(ChatColor.YELLOW + "Your domain shall now be called: " + ChatColor.GOLD + args[0]);
     }
 }

@@ -6,22 +6,32 @@ import org.bukkit.entity.Player;
 
 import java.util.Objects;
 
-public abstract class Unclaim {
-    public static void unclaim(Player p, String[] args, DataManager data) {
-        if (!p.hasPermission("wt.base.basic.unclaim")) {
-            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+public class Unclaim {
+    Player player;
+    String[] args;
+    DataManager data;
+
+    public Unclaim(Player player, String[] args, DataManager data) {
+        this.player = player;
+        this.args = args;
+        this.data = data;
+    }
+
+    public void unclaim() {
+        if (!player.hasPermission("wt.base.basic.unclaim")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to do that");
             return;
         }
 
         // If chunk belongs to the player
-        if (Objects.equals(data.getConfig().get("worlds." + p.getWorld().getName() + ".chunks." + p.getLocation().getChunk() + ".owner"), p.getUniqueId().toString())) {
+        if (Objects.equals(data.getConfig().get("worlds." + player.getWorld().getName() + ".chunks." + player.getLocation().getChunk() + ".owner"), player.getUniqueId().toString())) {
             // Remove chunk from data.yml
-            data.getConfig().set("worlds." + p.getWorld().getName() + ".chunks." + p.getLocation().getChunk(), null);
+            data.getConfig().set("worlds." + player.getWorld().getName() + ".chunks." + player.getLocation().getChunk(), null);
 
             data.saveConfig();
-            p.sendMessage(ChatColor.YELLOW + "Chunk unclaimed successfully");
+            player.sendMessage(ChatColor.YELLOW + "Chunk unclaimed successfully");
         } else {
-            p.sendMessage(ChatColor.RED + "This land belongs to " + data.getConfig().get("chunks." + p.getLocation().getChunk() + ".domain"));
+            player.sendMessage(ChatColor.RED + "This land belongs to " + data.getConfig().get("chunks." + player.getLocation().getChunk() + ".domain"));
         }
     }
 }

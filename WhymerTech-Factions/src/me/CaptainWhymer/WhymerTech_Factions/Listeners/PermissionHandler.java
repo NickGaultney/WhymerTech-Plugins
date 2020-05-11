@@ -4,6 +4,7 @@ import me.CaptainWhymer.WhymerTech_Factions.Files.DataManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Player;
@@ -95,15 +96,11 @@ public class PermissionHandler implements Listener {
     }
 
     private boolean playerHasPermission(Player player, Chunk chunk, String permission) {
-        // If the block is in a chunk claimed by a player
-        if (data.getConfig().contains("worlds." + player.getWorld().getName() + ".chunks." + chunk)) {
+        if ( chunkClaimed(player.getWorld(), chunk) ) {
             String owner = data.getConfig().getString("worlds." + player.getWorld().getName() + ".chunks." + chunk + ".owner");
-            // If the player is not the owner
-            if (!player.getUniqueId().toString().equals(owner)) {
-                // If player is a member
-                if (data.getConfig().contains("players." + owner + ".members." + player.getName())) {
-                    // If permission is disabled
-                    if (!data.getConfig().getBoolean("players." + owner + ".permissions." + permission)) {
+            if ( !isOwner(player, owner) ) {
+                if ( isMember(player, owner) ) {
+                    if ( !permissionEnabled(owner, permission) ) {
                         player.sendMessage(ChatColor.RED + "You do not have permission to do that");
                         return false;
                     }
@@ -119,13 +116,28 @@ public class PermissionHandler implements Listener {
     }
 
     private boolean blockHasPermission(Chunk chunk, String permission) {
-        // If the block is in a chunk claimed by a player
-        if (data.getConfig().contains("worlds." + chunk.getWorld().getName() + ".chunks." + chunk)) {
+        if ( chunkClaimed(chunk.getWorld(), chunk) ) {
             String owner = data.getConfig().getString("worlds." + chunk.getWorld() + ".chunks." + chunk + ".owner");
             // If fire-spread is disabled
             return data.getConfig().getBoolean("players." + owner + ".permissions." + permission);
         }
 
         return true;
+    }
+
+    private boolean chunkClaimed(World world, Chunk chunk) {
+        return (data.getConfig().contains("worlds." + world.getName() + ".chunks." + chunk));
+    }
+
+    private boolean isOwner(Player player, String owner) {
+        return (player.getUniqueId().toString().equals(owner));
+    }
+
+    private boolean isMember(Player player, String owner) {
+        return (data.getConfig().contains("players." + owner + ".members." + player.getName()));
+    }
+
+    private boolean permissionEnabled(String owner, String permission) {
+        return (data.getConfig().getBoolean("players." + owner + ".permissions." + permission));
     }
 }

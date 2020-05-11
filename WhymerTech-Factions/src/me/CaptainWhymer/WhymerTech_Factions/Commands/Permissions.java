@@ -14,22 +14,32 @@ import java.util.Set;
     One day someone should make the a much prettier output by using an inventory with
     red wool representing FALSE and green wool representing TRUE
  */
-public abstract class Permissions {
+public class Permissions {
+    Player player;
+    String[] args;
+    DataManager data;
+
     private static final ArrayList<String> PERMISSIONS = new ArrayList<>(Arrays.asList(
             "block-break", "block-place", "chest-open",
             "explosions", "fire-spread", "lava-flow"
     ));
 
-    public static void permissions(Player p, String[] args, DataManager data) {
-        if (!p.hasPermission("wt.base.basic.permissions")) {
-            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+    public Permissions(Player player, String[] args, DataManager data) {
+        this.player = player;
+        this.args = args;
+        this.data = data;
+    }
+
+    public void permissions() {
+        if (!player.hasPermission("wt.base.basic.permissions")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to do that");
             return;
         }
 
         if (args.length == 0) {
-            list(p, data);
+            list(player, data);
         } else if (args[0].equalsIgnoreCase("set")) {
-            set(p, Arrays.copyOfRange(args, 1, args.length), data);
+            set(player, Arrays.copyOfRange(args, 1, args.length), data);
         }
     }
 

@@ -4,27 +4,38 @@ import me.CaptainWhymer.WhymerTech_Factions.Files.DataManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public abstract class Claim {
-    public static void claim(Player p, String[] args, DataManager data) {
-        if (!p.hasPermission("wt.base.basic.claim")) {
-            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+public class Claim {
+    Player player;
+    String[] args;
+    DataManager data;
+
+    public Claim(Player player, String[] args, DataManager data) {
+        this.player = player;
+        this.args = args;
+        this.data = data;
+    }
+
+    public void claim() {
+        if (!player.hasPermission("wt.base.basic.claim")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to do that");
             return;
+            // TODO: Custom exception for not enough permissions
         }
 
         // If chunk is not already claimed
-        if (!data.getConfig().contains("worlds." + p.getWorld().getName() + ".chunks." + p.getLocation().getChunk())) {
+        if (!data.getConfig().contains("worlds." + player.getWorld().getName() + ".chunks." + player.getLocation().getChunk())) {
             // Set player as owner of chunk
-            data.getConfig().set("worlds." + p.getWorld().getName() + ".chunks." + p.getLocation().getChunk() + ".owner", p.getUniqueId().toString());
+            data.getConfig().set("worlds." + player.getWorld().getName() + ".chunks." + player.getLocation().getChunk() + ".owner", player.getUniqueId().toString());
 
-            if (!data.getConfig().contains("players." + p.getUniqueId().toString())) {
-                data.initializeBase(p);
+            if (!data.getConfig().contains("players." + player.getUniqueId().toString())) {
+                data.initializeBase(player);
             }
 
             data.saveConfig();
-            p.sendMessage(ChatColor.YELLOW + "Chunk claimed successfully");
+            player.sendMessage(ChatColor.YELLOW + "Chunk claimed successfully");
         } else {
-            String owner = data.getConfig().getString("worlds." + p.getWorld().getName() + ".chunks." + p.getLocation().getChunk() + ".owner");
-            p.sendMessage(ChatColor.RED + "This land belongs to " + ChatColor.GOLD + data.getConfig().get("players." + owner + ".domain"));
+            String owner = data.getConfig().getString("worlds." + player.getWorld().getName() + ".chunks." + player.getLocation().getChunk() + ".owner");
+            player.sendMessage(ChatColor.RED + "This land belongs to " + ChatColor.GOLD + data.getConfig().get("players." + owner + ".domain"));
         }
     }
 }

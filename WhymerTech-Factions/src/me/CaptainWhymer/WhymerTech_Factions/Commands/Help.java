@@ -6,20 +6,30 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.Method;
 
-public abstract class Help {
-    public static void help(Player p, String[] args, DataManager data) {
-        if (!p.hasPermission("wt.base.basic.help")) {
-            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+public class Help {
+    Player player;
+    String[] args;
+    DataManager data;
+
+    public Help(Player player, String[] args, DataManager data) {
+        this.player = player;
+        this.args = args;
+        this.data = data;
+    }
+
+    public void help() {
+        if (!player.hasPermission("wt.base.basic.help")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to do that");
             return;
         }
 
         Method[] methods;
         if (args.length == 0) {
-            p.sendMessage(ChatColor.GOLD + "____________________ HELP 1/1 ____________________");
+            player.sendMessage(ChatColor.GOLD + "____________________ HELP 1/1 ____________________");
             methods = Help.class.getDeclaredMethods();
             for (int i = 0; i < methods.length; i++) {
                 try {
-                    p.sendMessage(ChatColor.GOLD + "/base " + ChatColor.BLUE + methods[i].getName() +
+                    player.sendMessage(ChatColor.GOLD + "/base " + ChatColor.BLUE + methods[i].getName() +
                             ChatColor.LIGHT_PURPLE +" --- " + ChatColor.AQUA + methods[i].invoke(null));
                 } catch (Exception e) {
                     // Do nothing

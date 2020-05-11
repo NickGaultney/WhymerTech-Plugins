@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
@@ -43,17 +44,18 @@ public class Base implements CommandExecutor {
                 return true;
             }
 
+            // convert args to lowercase
+            for(int i = 0; i < args.length; i++) {
+                args[i] = args[i].toLowerCase();
+            }
+
             try {
                 // Check to see if command exists
                 Class<?> clazz = Class.forName(getClass().getPackage().getName() + "." + capitalize(args[0]));
+                Constructor<?> constructor = clazz.getConstructor(Player.class, String[].class, DataManager.class);
 
-                // convert args to lowercase
-                for(int i = 0; i < args.length; i++) {
-                    args[i] = args[i].toLowerCase();
-                }
-
-                Method method = clazz.getMethod(args[0], Player.class, String[].class, DataManager.class);
-                method.invoke(null, p, Arrays.copyOfRange(args, 1, args.length), data);
+                Method method = clazz.getMethod(args[0]);
+                method.invoke(constructor.newInstance(p, Arrays.copyOfRange(args, 1, args.length), data));
             } catch (Exception e) {
                 p.sendMessage(ChatColor.RED + "Invalid Command: Try /base help");
                 e.printStackTrace();

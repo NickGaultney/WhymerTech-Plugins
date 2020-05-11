@@ -7,31 +7,40 @@ import org.bukkit.entity.Player;
 
 import java.util.Set;
 
-public abstract class Members {
+public class Members {
+    Player player;
+    String[] args;
+    DataManager data;
 
-    public static void members(Player p, String[] args, DataManager data) {
-        if (!p.hasPermission("wt.base.basic.members")) {
-            p.sendMessage(ChatColor.RED + "You do not have permission to do that");
+    public Members(Player player, String[] args, DataManager data) {
+        this.player = player;
+        this.args = args;
+        this.data = data;
+    }
+
+    public void members() {
+        if (!player.hasPermission("wt.base.basic.members")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to do that");
             return;
         }
 
-        ConfigurationSection members = data.getConfig().getConfigurationSection("players." + p.getUniqueId().toString() + ".members");
+        ConfigurationSection members = data.getConfig().getConfigurationSection("players." + player.getUniqueId().toString() + ".members");
         if (members != null) {
             Set<String> keys = members.getKeys(true);
-            p.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "MEMBERS");
-            p.sendMessage(ChatColor.DARK_PURPLE + "~~~~~~~~~~~~~~~");
+            player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "MEMBERS");
+            player.sendMessage(ChatColor.DARK_PURPLE + "~~~~~~~~~~~~~~~");
 
             for (String s : keys) {
                 String status = members.get(s).toString();
                 if (status == null) {
                     continue;
                 }
-                p.sendMessage(ChatColor.AQUA + s);
+                player.sendMessage(ChatColor.AQUA + s);
             }
 
-            p.sendMessage(ChatColor.DARK_PURPLE + "~~~~~~~~~~~~~~~");
+            player.sendMessage(ChatColor.DARK_PURPLE + "~~~~~~~~~~~~~~~");
         } else {
-            p.sendMessage( ChatColor.RED + "You currently have no members!\nAdd players using /base add <player_name>");
+            player.sendMessage( ChatColor.RED + "You currently have no members!\nAdd players using /base add <player_name>");
         }
     }
 }
